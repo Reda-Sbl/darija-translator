@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Darija Translator",
+  "version": "1.0.0",
+  "description": "Translate selected text to Moroccan Arabic (Darija) in the side panel.",
+  "permissions": ["contextMenus", "sidePanel", "storage"],
+  "host_permissions": ["http://localhost:8080/*", "http://127.0.0.1:8080/*"],
+  "background": { "service_worker": "background.js" },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "action": { "default_title": "Open Darija Translator" }
+}

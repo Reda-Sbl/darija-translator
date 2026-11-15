@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darija Translator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 22px 18px;
+      font-family: Inter, system-ui, sans-serif;
+      background: #fffaf4;
+      color: #29243b;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff795e, #ffad69);
+      color: white;
+      font-size: 22px;
+    }
+
+    .brand h2 {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 750;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: #9690a2;
+      font-size: 12px;
+    }
+
+    .language-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f3edff;
+      padding: 13px 15px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .language {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .arrow {
+      color: #9b7ae9;
+      font-size: 18px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #827b91;
+      margin-bottom: 9px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 125px;
+      resize: vertical;
+      padding: 15px;
+      border: 1.5px solid #eee8f3;
+      border-radius: 15px;
+      background: white;
+      color: #29243b;
+      font: inherit;
+      font-size: 14px;
+      line-height: 1.6;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    textarea:focus {
+      border-color: #a68ae9;
+      box-shadow: 0 0 0 3px #a68ae922;
+    }
+
+    textarea::placeholder {
+      color: #b5afbd;
+    }
+
+    .translate-btn {
+      width: 100%;
+      margin-top: 13px;
+      padding: 14px;
+      border: none;
+      border-radius: 13px;
+      background: linear-gradient(110deg, #ff795e, #ff9c69);
+      color: white;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+      box-shadow: 0 5px 14px #ff795e35;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .translate-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.93;
+    }
+
+    .translate-btn:active {
+      transform: scale(0.98);
+    }
+
+    #status {
+      min-height: 20px;
+      margin: 10px 2px;
+      font-size: 12px;
+      color: #91899e;
+    }
+
+    .result-card {
+      margin-top: 12px;
+      padding: 16px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid #eee8f3;
+      box-shadow: 0 4px 16px #29243b08;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .result-title {
+      font-size: 12px;
+      font-weight: 750;
+      color: #827b91;
+    }
+
+    .darija-tag {
+      background: #fff0e9;
+      color: #ed7959;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    #result {
+      min-height: 75px;
+      direction: rtl;
+      text-align: right;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 21px;
+      line-height: 1.9;
+      color: #29243b;
+    }
+
+    .actions {
+      display: flex;
+      gap: 9px;
+      margin-top: 17px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 11px 6px;
+      border: 1px solid #eee8f3;
+      border-radius: 11px;
+      background: #faf8ff;
+      color: #615575;
+      font-size: 12px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      background: #f0eaff;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 15px;
+      border-top: 1px solid #eee8f3;
+    }
+
+    .bottom span {
+      font-size: 11px;
+      color: #a39bab;
+    }
+
+    details {
+      position: relative;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      font-size: 19px;
+      color: #8875b8;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .settings {
+      margin-top: 15px;
+      padding: 15px;
+      background: white;
+      border: 1px solid #eee8f3;
+      border-radius: 14px;
+    }
+
+    .settings-title {
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 9px;
+      border: 1px solid #eee8f3;
+      border-radius: 9px;
+      outline: none;
+      font: inherit;
+      font-size: 12px;
+    }
+
+    input:focus {
+      border-color: #a68ae9;
+    }
+
+    #save {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 9px;
+      background: #8e70d5;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">ع</div>
+  <div class="brand">
+    <h2>Darija Translator</h2>
+    <p>Your English to Moroccan Darija companion</p>
+  </div>
+</header>
+
+<div class="language-bar">
+  <div class="language">
+    🇬🇧 English
+  </div>
+  <span class="arrow">→</span>
+  <div class="language">
+    🇲🇦 Darija
+  </div>
+</div>
+
+<div class="section-label">YOUR TEXT</div>
+
+<textarea
+        id="input"
+        placeholder="Type something in English..."
+></textarea>
+
+<button id="translate" class="translate-btn">
+  ✨ Translate to Darija
+</button>
+
+<div id="status"></div>
+
+<div class="result-card">
+  <div class="result-header">
+    <span class="result-title">TRANSLATION</span>
+    <span class="darija-tag">MOROCCAN DARIJA</span>
+  </div>
+
+  <div id="result"></div>
+
+  <div class="actions">
+    <button id="speak" class="action-btn">
+      🔊 Listen
+    </button>
+
+    <button id="mic" class="action-btn">
+      🎤 Speak
+    </button>
+  </div>
+</div>
+
+<footer class="bottom">
+  <span>Made for Moroccan Darija 🇲🇦</span>
+
+  <details>
+    <summary title="Settings">⚙</summary>
+
+    <div class="settings">
+      <div class="settings-title">Connection Settings</div>
+
+      <input id="url" placeholder="Server URL">
+
+      <input id="user" placeholder="Username">
+
+      <input id="pass" type="password" placeholder="Password">
+
+      <button id="save">Save Settings</button>
+    </div>
+  </details>
+</footer>
+
+<script src="sidepanel.js"></script>
+
+</body>
+</html>
